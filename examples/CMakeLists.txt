@@ -32,7 +32,6 @@ target_link_libraries(${POLKITQT-1_EXAMPLE}
     ${QT_QTGUI_LIBRARY}
     ${POLKITQT-1_GUI_PCNAME}
     ${POLKITQT-1_CORE_PCNAME}
-    ${GOBJECT_LIBRARIES}
 )
 
 #--------Helper Application

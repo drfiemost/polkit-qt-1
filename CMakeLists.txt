@@ -84,20 +84,18 @@ else()
     set(POLKITQT-1_INCLUDE_PATH "polkit-qt-1")
 endif()
 
-find_package(Polkit REQUIRED)
-find_package(GObject REQUIRED)
-find_package(GIO REQUIRED)
+find_package(PkgConfig REQUIRED)
+
+pkg_check_modules(POLKIT_GOBJECT polkit-gobject-1 REQUIRED IMPORTED_TARGET)
+pkg_check_modules(POLKIT_AGENT polkit-agent-1 REQUIRED IMPORTED_TARGET)
+pkg_check_modules(GLIB2 glib-2.0 REQUIRED IMPORTED_TARGET)
+pkg_check_modules(GOBJECT gobject-2.0 REQUIRED IMPORTED_TARGET)
 
 add_definitions(-DQT_NO_KEYWORDS)
 
 include (CheckFunctionExists)
 
 include_directories(
-    ${POLKIT_INCLUDE_DIR}
-    ${POLKIT_AGENT_INCLUDE_DIR}
-    ${GLIB2_INCLUDE_DIR}
-    ${GOBJECT_INCLUDE_DIR}
-    ${GIO_INCLUDE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/core
     ${CMAKE_CURRENT_SOURCE_DIR}/includes
@@ -110,8 +108,8 @@ if(NOT USE_QT5)
 endif()
 
 # Check for older polkit
-set(CMAKE_REQUIRED_INCLUDES ${POLKIT_INCLUDE_DIR} ${POLKIT_AGENT_INCLUDE_DIR})
-set(CMAKE_REQUIRED_LIBRARIES ${POLKIT_LIBRARIES} ${POLKIT_AGENT_LIBRARY})
+set(CMAKE_REQUIRED_INCLUDES ${POLKIT_GOBJECT_INCLUDE_DIRS} ${POLKIT_AGENT_INCLUDE_DIRS})
+set(CMAKE_REQUIRED_LIBRARIES ${POLKIT_GOBJECT_LIBRARIES} ${POLKIT_AGENT_LIBRARIES})
 check_function_exists(polkit_agent_listener_register HAVE_POLKIT_AGENT_LISTENER_REGISTER)
 check_function_exists(polkit_authority_get_sync HAVE_POLKIT_AUTHORITY_GET_SYNC)
 check_function_exists(polkit_system_bus_name_get_user_sync HAVE_POLKIT_SYSTEM_BUS_NAME_GET_USER_SYNC)
