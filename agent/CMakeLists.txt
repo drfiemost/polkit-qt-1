@@ -9,10 +9,10 @@ add_library(${POLKITQT-1_AGENT_PCNAME} SHARED ${polkit_qt_agent_SRCS})
 add_library(${POLKITQT-1_CAMEL_NAME}::Agent ALIAS ${POLKITQT-1_AGENT_PCNAME})
 
 target_link_libraries(${POLKITQT-1_AGENT_PCNAME}
-    LINK_PUBLIC
+    PUBLIC
     ${QT_QTCORE_LIBRARY}
     ${POLKITQT-1_CORE_PCNAME}
-    LINK_PRIVATE
+    PRIVATE
     ${QT_QTCORE_LIBRARY}
     PkgConfig::POLKIT_AGENT
     PkgConfig::GOBJECT
