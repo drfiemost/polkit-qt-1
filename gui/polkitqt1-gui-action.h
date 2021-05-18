@@ -77,8 +77,8 @@ public:
      * \param actionId the PolicyKit action Id (e.g.: org.freedesktop.policykit.read)
      * \param parent the object parent
      */
-    explicit Action(const QString &actionId = QString(), QObject *parent = 0);
-    ~Action();
+    explicit Action(const QString &actionId = QString(), QObject *parent = nullptr);
+    ~Action() override;
 
 Q_SIGNALS:
     /**

@@ -33,7 +33,7 @@ class PkAgentExample : public QCoreApplication
     Q_OBJECT
 public:
     PkAgentExample(int &argc, char **argv);
-    ~PkAgentExample() {};
+    ~PkAgentExample() override {};
 private:
     KListener m_listener;
 };

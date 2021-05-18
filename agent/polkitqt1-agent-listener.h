@@ -78,7 +78,7 @@ public:
      */
     explicit Listener(PolkitAgentListener *listener, QObject *parent = 0);
 
-    virtual ~Listener();
+    ~Listener() override;
 
     /**
      * \brief Registers listener with polkit daemon as an authentication agent for \p subject.

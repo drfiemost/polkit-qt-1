@@ -70,8 +70,8 @@ public:
      * \param actionId the action Id to create the underlying Action
      * \param parent the parent object
      */
-    explicit ActionButton(QAbstractButton *button, const QString &actionId = QString(), QObject *parent = 0);
-    virtual ~ActionButton();
+    explicit ActionButton(QAbstractButton *button, const QString &actionId = QString(), QObject *parent = nullptr);
+    ~ActionButton() override;
 
     /**
      * Sets the button associated to the underlying action.
