@@ -14,6 +14,8 @@ include(CMakePackageConfigHelpers)
 # Used to set installation paths
 include(GNUInstallDirs)
 
+include(FeatureSummary)
+
 # Set the different paths
 set(LIB_DESTINATION         "${CMAKE_INSTALL_FULL_LIBDIR}" CACHE PATH "Library directory name")
 set(INCLUDE_DESTINATION     "${CMAKE_INSTALL_FULL_INCLUDEDIR}" CACHE PATH "The subdirectory to the header prefix")
@@ -244,6 +246,8 @@ endif (BUILD_TEST)
 add_subdirectory(core)
 add_subdirectory(gui)
 add_subdirectory(agent)
+
+feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 # Always last!
 include (PolkitQt-1Dist)
