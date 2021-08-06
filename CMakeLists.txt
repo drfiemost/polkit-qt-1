@@ -85,7 +85,7 @@ find_package(PkgConfig REQUIRED)
 
 pkg_check_modules(POLKIT_GOBJECT polkit-gobject-1 REQUIRED IMPORTED_TARGET)
 pkg_check_modules(POLKIT_AGENT polkit-agent-1 REQUIRED IMPORTED_TARGET)
-pkg_check_modules(GLIB2 glib-2.0 REQUIRED IMPORTED_TARGET)
+pkg_check_modules(GLIB2 glib-2.0>=2.36 REQUIRED IMPORTED_TARGET)
 pkg_check_modules(GOBJECT gobject-2.0 REQUIRED IMPORTED_TARGET)
 
 add_definitions(-DQT_NO_KEYWORDS)

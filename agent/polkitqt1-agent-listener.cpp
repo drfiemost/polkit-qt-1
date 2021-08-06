@@ -47,8 +47,6 @@ public:
 Listener::Listener(QObject *parent)
         : QObject(parent), d(new ListenerPrivate)
 {
-    g_type_init();
-
     d->listener = polkit_qt_listener_new();
 
     qDebug() << "New PolkitAgentListener " << d->listener;
@@ -59,8 +57,6 @@ Listener::Listener(QObject *parent)
 Listener::Listener(PolkitAgentListener *listener, QObject *parent)
         : QObject(parent), d(new ListenerPrivate)
 {
-    g_type_init();
-
     d->listener = listener;
     
     if (d->listener != NULL) {

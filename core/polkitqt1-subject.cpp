@@ -52,13 +52,11 @@ public:
 Subject::Subject()
         : d(new Data)
 {
-    g_type_init();
 }
 
 Subject::Subject(PolkitSubject *subject)
         : d(new Data)
 {
-    g_type_init();
     d->subject = subject;
     
     if (d->subject != NULL) {
@@ -108,9 +106,6 @@ QString Subject::toString() const
 
 Subject Subject::fromString(const QString &string)
 {
-    // should be in polkit library!!! but for strange reason it's necessary to have it here
-    g_type_init();
-
     Subject subject;
     GError *error = NULL;
     subject.d->subject = polkit_subject_from_string(string.toUtf8().data(), &error);
