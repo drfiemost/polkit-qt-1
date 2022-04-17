@@ -24,7 +24,7 @@
 #include <QtCore/QObject>
 #include "polkitqt1-identity.h"
 
-typedef struct _GSimpleAsyncResult GSimpleAsyncResult;
+typedef struct _GTask GTask;
 typedef struct _PolkitAgentSession PolkitAgentSession;
 
 namespace PolkitQt1
@@ -43,21 +43,21 @@ namespace Agent
 
 /**
  * \internal
- * \brief Encapsulation of GSimpleAsyncResult to QObject class
+ * \brief Encapsulation of GTask to QObject class
  */
-class POLKITQT1_EXPORT AsyncResult
+class POLKITQT1_EXPORT AsyncTask
 {
 public:
-    explicit AsyncResult(GSimpleAsyncResult *result);
-    virtual ~AsyncResult();
+    explicit AsyncTask(GTask *task);
+    virtual ~AsyncTask();
 
     /**
-     * \brief Mark the action that is tied to this result as completed.
+     * \brief Mark the action that is tied to this task as completed.
      */
     void setCompleted();
 
     /**
-     * \brief Sets an error for the asynchronous result.
+     * \brief Sets an error for the asynchronous task.
      * Method complete() must be called anyway.
      *
      * \param text text of the error message
@@ -90,7 +90,7 @@ public:
      * \param result Result of the authentication action. Must be finished using complete() method.
      * \param parent
      */
-    Session(const PolkitQt1::Identity& identity, const QString &cookie, AsyncResult *result = 0, QObject *parent = 0);
+    Session(const PolkitQt1::Identity& identity, const QString &cookie, AsyncTask *task = 0, QObject *parent = 0);
 
     /**
      * Create a new authentication session from PolkitAgentSession object
@@ -128,11 +128,11 @@ public:
     void cancel();
 
     /**
-     * Get AsyncResult that can be used to finish authentication operation
+     * Get AsyncTask that can be used to finish authentication operation
      *
-     * \return AsyncResult object or NULL if it is not set
+     * \return AsyncTask object or NULL if it is not set
      */
-    AsyncResult *result();
+    AsyncTask *task();
 
 Q_SIGNALS:
     /**

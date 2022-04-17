@@ -29,7 +29,7 @@
 
 typedef struct _GList GList;
 typedef struct _GCancellable GCancellable;
-typedef struct _GAsyncResult GAsyncResult;
+typedef struct _GTask GTask;
 typedef struct _GSimpleAsyncResult GSimpleAsyncResult;
 typedef struct _GError GError;
 typedef int gboolean;
@@ -41,7 +41,7 @@ namespace PolkitQt1
 namespace Agent
 {
 
-class AsyncResult;
+class AsyncTask;
 class Listener;
 class ListenerAdapter : public QObject
 {
@@ -59,10 +59,10 @@ public:
             const gchar          *cookie,
             GList                *identities,
             GCancellable         *cancellable,
-            GSimpleAsyncResult   *result);
+            GTask                *task);
 
     gboolean polkit_qt_listener_initiate_authentication_finish(PolkitAgentListener  *listener,
-            GAsyncResult         *res,
+            GTask                *task,
             GError               **error);
     void cancelled_cb(PolkitAgentListener *listener);
 private:
