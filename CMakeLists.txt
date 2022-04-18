@@ -20,70 +20,25 @@ include(GNUInstallDirs)
 
 include(FeatureSummary)
 
-# Check whether we explicitely select the Qt version to be used or autodetect
-if(NOT USE_QT4 AND NOT USE_QT5)
-    # Autodetect, prefering Qt 5
-    message(STATUS "Autodetecting Qt version to use")
-    find_package(Qt5Core QUIET)
-    if(Qt5Core_FOUND)
-        set(USE_QT5 TRUE)
-    endif()
-endif()
+message(STATUS "Using Qt 4")
 
-if(USE_QT5)
-    message(STATUS "Using Qt 5")
+set(QT_MIN_VERSION "4.4.0")
 
-    set(REQUIRED_QT_VERSION 5.1.0)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
+find_package(Qt4 REQUIRED)
 
-    find_package(Qt5 ${REQUIRED_QT_VERSION} REQUIRED COMPONENTS Core DBus Widgets)
+include (${QT_USE_FILE})
+include (InstallSettings)
 
-    set(POLKITQT-1_PCNAME "polkit-qt5-1")
-    set(POLKITQT-1_CORE_PCNAME "polkit-qt5-core-1")
-    set(POLKITQT-1_GUI_PCNAME "polkit-qt5-gui-1")
-    set(POLKITQT-1_AGENT_PCNAME "polkit-qt5-agent-1")
-    set(POLKITQT-1_CAMEL_NAME "PolkitQt5-1")
-    set(POLKITQT-1_EXAMPLE "polkit-example-qt5")
-    set(POLKITQT-1_EXAMPLE_HELPER "polkit-example-helper-qt5")
-    set(POLKITQT-1_AGENT_EXAMPLE "polkit-agent-example-qt5")
-    set(POLKITQT-1_INCLUDE_PATH "polkit-qt5-1")
+set(POLKITQT-1_PCNAME "polkit-qt-1")
+set(POLKITQT-1_CORE_PCNAME "polkit-qt-core-1")
+set(POLKITQT-1_GUI_PCNAME "polkit-qt-gui-1")
+set(POLKITQT-1_AGENT_PCNAME "polkit-qt-agent-1")
+set(POLKITQT-1_CAMEL_NAME "PolkitQt-1")
+set(POLKITQT-1_EXAMPLE "polkit-example")
+set(POLKITQT-1_EXAMPLE_HELPER "polkit-example-helper")
+set(POLKITQT-1_AGENT_EXAMPLE "polkit-agent-example")
+set(POLKITQT-1_INCLUDE_PATH "polkit-qt-1")
 
-    set(QT_QTCORE_LIBRARY Qt5::Core)
-    set(QT_QTDBUS_LIBRARY Qt5::DBus)
-    set(QT_QTTEST_LIBRARY Qt5::Test)
-    set(QT_QTGUI_LIBRARY Qt5::Widgets)
-
-    macro(qt4_wrap_ui)
-        qt5_wrap_ui(${ARGN})
-    endmacro()
-
-    macro(qt4_add_resources)
-        qt5_add_resources(${ARGN})
-    endmacro()
-
-    macro(qt4_add_dbus_adaptor)
-        qt5_add_dbus_adaptor(${ARGN})
-    endmacro()
-else()
-    message(STATUS "Using Qt 4")
-
-    set(QT_MIN_VERSION "4.4.0")
-
-    find_package(Qt4 REQUIRED)
-
-    include (${QT_USE_FILE})
-    include (InstallSettings)
-
-    set(POLKITQT-1_PCNAME "polkit-qt-1")
-    set(POLKITQT-1_CORE_PCNAME "polkit-qt-core-1")
-    set(POLKITQT-1_GUI_PCNAME "polkit-qt-gui-1")
-    set(POLKITQT-1_AGENT_PCNAME "polkit-qt-agent-1")
-    set(POLKITQT-1_CAMEL_NAME "PolkitQt-1")
-    set(POLKITQT-1_EXAMPLE "polkit-example")
-    set(POLKITQT-1_EXAMPLE_HELPER "polkit-example-helper")
-    set(POLKITQT-1_AGENT_EXAMPLE "polkit-agent-example")
-    set(POLKITQT-1_INCLUDE_PATH "polkit-qt-1")
-endif()
 
 find_package(PkgConfig REQUIRED)
 
@@ -101,11 +56,10 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/core
     ${CMAKE_CURRENT_BINARY_DIR}
 )
-if(NOT USE_QT5)
-    include_directories(
-        ${QT_QTXML_INCLUDE_DIR}
-    )
-endif()
+
+include_directories(
+    ${QT_QTXML_INCLUDE_DIR}
+)
 
 # Check for older polkit
 set(CMAKE_REQUIRED_INCLUDES ${POLKIT_GOBJECT_INCLUDE_DIRS} ${POLKIT_AGENT_INCLUDE_DIRS})
@@ -225,10 +179,6 @@ install(EXPORT ${POLKITQT-1_CAMEL_NAME}Export FILE ${POLKITQT-1_CAMEL_NAME}Targe
 
 option(BUILD_EXAMPLES "Builds a set of examples for polkit-qt-1" OFF)
 if (BUILD_EXAMPLES)
-    if(USE_QT5)
-        find_package(Qt5Xml ${REQUIRED_QT_VERSION} REQUIRED)
-        set(QT_QTXML_LIBRARY Qt5::Xml)
-    endif()
     add_subdirectory(examples)
 endif (BUILD_EXAMPLES)
 
@@ -236,9 +186,6 @@ add_subdirectory(cmake)
 
 option(BUILD_TEST "Builds unit tests for polkit-qt-1" OFF)
 if (BUILD_TEST)
-    if(USE_QT5)
-        find_package(Qt5Test ${REQUIRED_QT_VERSION} REQUIRED)
-    endif()
     add_subdirectory(test)
 endif (BUILD_TEST)
 
