@@ -103,13 +103,12 @@ void ListenerAdapter::polkit_qt_listener_initiate_authentication(PolkitAgentList
 }
 
 gboolean ListenerAdapter::polkit_qt_listener_initiate_authentication_finish(PolkitAgentListener  *listener,
-        GTask               *res,
+        GAsyncResult         *res,
         GError              **error)
 {
     qDebug() << "polkit_qt_listener_initiate_authentication_finish callback for " << listener;
 
-    GSimpleAsyncResult *simple = G_SIMPLE_ASYNC_RESULT(res);
-    if (g_simple_async_result_propagate_error(simple, error)) {
+    if (g_async_result_legacy_propagate_error(res, error)) {
         return false;
     }
     return true;

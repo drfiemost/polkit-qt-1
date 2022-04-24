@@ -30,6 +30,7 @@
 typedef struct _GList GList;
 typedef struct _GCancellable GCancellable;
 typedef struct _GTask GTask;
+typedef struct _GAsyncResult GAsyncResult;
 typedef struct _GSimpleAsyncResult GSimpleAsyncResult;
 typedef struct _GError GError;
 typedef int gboolean;
@@ -62,7 +63,7 @@ public:
             GTask                *task);
 
     gboolean polkit_qt_listener_initiate_authentication_finish(PolkitAgentListener  *listener,
-            GTask                *task,
+            GAsyncResult          *result,
             GError               **error);
     void cancelled_cb(PolkitAgentListener *listener);
 private:
