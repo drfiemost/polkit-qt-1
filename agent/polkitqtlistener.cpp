@@ -138,12 +138,12 @@ static void polkit_qt_listener_initiate_authentication(PolkitAgentListener  *age
 }
 
 static gboolean polkit_qt_listener_initiate_authentication_finish(PolkitAgentListener  *listener,
-        GAsyncResult         *result,
+        GAsyncResult         *res,
         GError              **error)
 {
     qDebug() << "Listener adapter polkit_qt_listener_initiate_authentication_finish";
     return ListenerAdapter::instance()->polkit_qt_listener_initiate_authentication_finish(listener,
-            result,
+            res,
             error);
 }
 

@@ -63,7 +63,7 @@ public:
             GTask                *task);
 
     gboolean polkit_qt_listener_initiate_authentication_finish(PolkitAgentListener  *listener,
-            GAsyncResult          *result,
+            GAsyncResult         *res,
             GError               **error);
     void cancelled_cb(PolkitAgentListener *listener);
 private:
