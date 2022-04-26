@@ -80,7 +80,7 @@ void ListenerAdapter::polkit_qt_listener_initiate_authentication(PolkitAgentList
         const gchar          *cookie,
         GList                *identities,
         GCancellable         *cancellable,
-        GSimpleAsyncResult *result)
+        GTask                *task)
 {
     qDebug() << "polkit_qt_listener_initiate_authentication callback for " << listener;
 
@@ -99,7 +99,7 @@ void ListenerAdapter::polkit_qt_listener_initiate_authentication(PolkitAgentList
                                  dets,
                                  QString::fromUtf8(cookie),
                                  idents,
-                                 new AsyncResult(result));
+                                 new AsyncTask(task));
 }
 
 gboolean ListenerAdapter::polkit_qt_listener_initiate_authentication_finish(PolkitAgentListener  *listener,
@@ -108,8 +108,7 @@ gboolean ListenerAdapter::polkit_qt_listener_initiate_authentication_finish(Polk
 {
     qDebug() << "polkit_qt_listener_initiate_authentication_finish callback for " << listener;
 
-    GSimpleAsyncResult *simple = G_SIMPLE_ASYNC_RESULT(res);
-    if (g_simple_async_result_propagate_error(simple, error)) {
+    if (g_async_result_legacy_propagate_error(res, error)) {
         return false;
     }
     return true;

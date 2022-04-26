@@ -122,8 +122,8 @@ static void polkit_qt_listener_initiate_authentication(PolkitAgentListener  *age
     }
 
     // The result of asynchronous method will be created here and it will be pushed to the listener.
-    GSimpleAsyncResult *result = g_simple_async_result_new((GObject *) listener, callback, user_data, agent_listener);
-    qDebug() << "GSimpleAsyncResult:" << result;
+    GTask *task = g_task_new((GObject *) listener, cancellable, callback, user_data);
+    qDebug() << "GTask:" << task;
 
     ListenerAdapter::instance()->polkit_qt_listener_initiate_authentication(agent_listener,
             action_id,
@@ -133,7 +133,7 @@ static void polkit_qt_listener_initiate_authentication(PolkitAgentListener  *age
             cookie,
             identities,
             cancellable,
-            result);
+            task);
 
 }
 

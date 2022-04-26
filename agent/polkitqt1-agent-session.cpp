@@ -40,7 +40,7 @@ public:
     static void showError(PolkitAgentSession *s, gchar *text, gpointer user_data);
     static void showInfo(PolkitAgentSession *s, gchar *text, gpointer user_data);
 
-    AsyncResult *result;
+    AsyncTask *task;
     PolkitAgentSession *polkitAgentSession;
 };
 
@@ -49,11 +49,11 @@ Session::Private::~Private()
     // polkitAgentSession is freed in Session d'tor
 }
 
-Session::Session(const PolkitQt1::Identity &identity, const QString &cookie, AsyncResult *result, QObject *parent)
+Session::Session(const PolkitQt1::Identity &identity, const QString &cookie, AsyncTask *task, QObject *parent)
         : QObject(parent)
         , d(new Private)
 {
-    d->result = result;
+    d->task = task;
     d->polkitAgentSession = polkit_agent_session_new(identity.identity(), cookie.toUtf8().data());
     g_signal_connect(G_OBJECT(d->polkitAgentSession), "completed", G_CALLBACK(Private::completed), this);
     g_signal_connect(G_OBJECT(d->polkitAgentSession), "request", G_CALLBACK(Private::request), this);
@@ -98,9 +98,9 @@ void Session::cancel()
     polkit_agent_session_cancel(d->polkitAgentSession);
 }
 
-AsyncResult *Session::result()
+AsyncTask *Session::task()
 {
-    return d->result;
+    return d->task;
 }
 
 void Session::Private::completed(PolkitAgentSession *s, gboolean gained_authorization, gpointer user_data)
@@ -134,37 +134,37 @@ void Session::Private::showInfo(PolkitAgentSession *s, gchar *text, gpointer use
 
 //
 
-class AsyncResult::Private
+class AsyncTask::Private
 {
 public:
-    Private(GSimpleAsyncResult *r) : result(r) {};
+    Private(GTask *t) : task(t) {};
 
-    GSimpleAsyncResult *result;
+    GTask *task;
 };
 
-AsyncResult::AsyncResult(GSimpleAsyncResult *result)
-        : d(new Private(result))
+AsyncTask::AsyncTask(GTask *task)
+        : d(new Private(task))
 {
 }
 
-AsyncResult::~AsyncResult()
+AsyncTask::~AsyncTask()
 {
-    if (d->result)
-        g_object_unref(d->result);
+    if (d->task)
+        g_object_unref(d->task);
 }
 
-void AsyncResult::setCompleted()
+void AsyncTask::setCompleted()
 {
-    if (d->result == NULL)
+    if (d->task == NULL)
         return;
-    g_simple_async_result_complete(d->result);
+
     // Assure that completed won't be called twice
-    g_object_unref(d->result);
-    d->result = NULL;
+    g_object_unref(d->task);
+    d->task = NULL;
 }
 
-void AsyncResult::setError(const QString &text)
+void AsyncTask::setError(const QString &text)
 {
-    Q_ASSERT(d->result);
-    g_simple_async_result_set_error(d->result, POLKIT_ERROR, POLKIT_ERROR_FAILED, "%s", text.toUtf8().data());
+    Q_ASSERT(d->task);
+    g_task_return_new_error(d->task, POLKIT_ERROR, POLKIT_ERROR_FAILED, "%s", text.toUtf8().data());
 }
