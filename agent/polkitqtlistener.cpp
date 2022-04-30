@@ -61,15 +61,13 @@ static gboolean polkit_qt_listener_initiate_authentication_finish(PolkitAgentLis
 
 G_DEFINE_TYPE(PolkitQtListener, polkit_qt_listener, POLKIT_AGENT_TYPE_LISTENER)
 
-static void polkit_qt_listener_init(PolkitQtListener *listener)
+static void polkit_qt_listener_init([[maybe_unused]] PolkitQtListener *listener)
 {
 }
 
 static void polkit_qt_listener_finalize(GObject *object)
 {
-    PolkitQtListener *listener;
-
-    listener = POLKIT_QT_LISTENER(object);
+    [[maybe_unused]] PolkitQtListener *listener = POLKIT_QT_LISTENER(object);
 
     if (G_OBJECT_CLASS(polkit_qt_listener_parent_class)->finalize != NULL) {
         G_OBJECT_CLASS(polkit_qt_listener_parent_class)->finalize(object);
@@ -95,7 +93,7 @@ PolkitAgentListener *polkit_qt_listener_new(void)
     return POLKIT_AGENT_LISTENER(g_object_new(POLKIT_QT_TYPE_LISTENER, NULL));
 }
 
-static void cancelled_cb(GCancellable *cancellable, gpointer user_data)
+static void cancelled_cb([[maybe_unused]] GCancellable *cancellable, gpointer user_data)
 {
     ListenerAdapter::instance()->cancelled_cb((PolkitAgentListener *)user_data);
 }

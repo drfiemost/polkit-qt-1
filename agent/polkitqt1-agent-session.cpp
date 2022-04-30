@@ -103,7 +103,9 @@ AsyncTask *Session::task()
     return d->task;
 }
 
-void Session::Private::completed(PolkitAgentSession *s, gboolean gained_authorization, gpointer user_data)
+void Session::Private::completed([[maybe_unused]] PolkitAgentSession *s,
+                                 gboolean gained_authorization,
+                                 gpointer user_data)
 {
     qDebug() << "COMPLETED";
     Session *session = (Session *)user_data;
@@ -114,19 +116,26 @@ void Session::Private::completed(PolkitAgentSession *s, gboolean gained_authoriz
     session->d->polkitAgentSession = 0;
 }
 
-void Session::Private::request(PolkitAgentSession *s, gchar *request, gboolean echo_on, gpointer user_data)
+void Session::Private::request([[maybe_unused]] PolkitAgentSession *s,
+                               gchar *request,
+                               gboolean echo_on,
+                               gpointer user_data)
 {
     qDebug() << "REQUEST";
     Q_EMIT((Session *)user_data)->request(QString::fromUtf8(request), echo_on);
 }
 
-void Session::Private::showError(PolkitAgentSession *s, gchar *text, gpointer user_data)
+void Session::Private::showError([[maybe_unused]] PolkitAgentSession *s,
+                                 gchar *text,
+                                 gpointer user_data)
 {
     qDebug() << "showError";
     Q_EMIT((Session *)user_data)->showError(QString::fromUtf8(text));
 }
 
-void Session::Private::showInfo(PolkitAgentSession *s, gchar *text, gpointer user_data)
+void Session::Private::showInfo([[maybe_unused]] PolkitAgentSession *s,
+                                gchar *text,
+                                gpointer user_data)
 {
     qDebug() << "showInfo";
     Q_EMIT((Session *)user_data)->showInfo(QString::fromUtf8(text));
