@@ -243,7 +243,7 @@ void Authority::Private::init()
         // this method returns a list with present seats
         QStringList seats;
         QVariant arg = reply.arguments()[0];
-        if (arg.type() == qMetaTypeId<QDBusArgument>()) {
+        if (arg.canConvert<QDBusArgument>()) {
             arg.value<QDBusArgument>() >> seats;
         } else {
             seats = arg.toStringList();
