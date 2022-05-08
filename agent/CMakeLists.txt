@@ -10,10 +10,9 @@ add_library(${POLKITQT-1_CAMEL_NAME}::Agent ALIAS ${POLKITQT-1_AGENT_PCNAME})
 
 target_link_libraries(${POLKITQT-1_AGENT_PCNAME}
     PUBLIC
-    ${QT_QTCORE_LIBRARY}
+    Qt4::QtCore
     ${POLKITQT-1_CORE_PCNAME}
     PRIVATE
-    ${QT_QTCORE_LIBRARY}
     PkgConfig::POLKIT_AGENT
     PkgConfig::GOBJECT
 )

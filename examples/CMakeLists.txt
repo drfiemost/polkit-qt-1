@@ -61,9 +61,9 @@ add_executable(${POLKITQT-1_EXAMPLE_HELPER}
 
 # see our helper is pretty small :D
 target_link_libraries(${POLKITQT-1_EXAMPLE_HELPER}
-    ${QT_QTCORE_LIBRARY}
-    ${QT_QTXML_LIBRARY}
-    ${QT_QTDBUS_LIBRARY}
+    Qt4::QtCore
+    Qt4::QtXml
+    Qt4::QtDBus
     ${POLKITQT-1_GUI_PCNAME}
 )
 
