@@ -79,7 +79,7 @@ void ListenerAdapter::polkit_qt_listener_initiate_authentication(PolkitAgentList
         PolkitDetails        *details,
         const gchar          *cookie,
         GList                *identities,
-        GCancellable         *cancellable,
+        GCancellable         */*cancellable*/,
         GTask                *task)
 {
     qDebug() << "polkit_qt_listener_initiate_authentication callback for " << listener;
