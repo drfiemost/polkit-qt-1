@@ -24,6 +24,7 @@
 #include "polkitqt1-export.h"
 
 #include <QtCore/QObject>
+#include <QScopedPointer>
 
 #include "polkitqt1-agent-session.h"
 
@@ -152,7 +153,7 @@ public Q_SLOTS:
     virtual void cancelAuthentication() = 0;
 
 private:
-    ListenerPrivate * const d;
+    QScopedPointer<ListenerPrivate> d;
 };
 }
 
